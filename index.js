@@ -9,14 +9,13 @@ let isAlive = false
 let sum = 0
 let dealerSum = 0
 let message = ''
-let messageEl = document.querySelector('#message-el')
-let cardsEl = document.querySelector('#cards-el')
-let sumEl = document.querySelector('#sum-el')
-let newCardBtnEl = document.querySelector('#new-card')
-let dealerCardEl = document.querySelector('#dealer-cards')
-let dealerSumEl = document.querySelector('#dealer-sum')
-
-let playerEl = document.querySelector('#player-el')
+const messageEl = document.querySelector('#message-el')
+const cardsEl = document.querySelector('#cards-el')
+const sumEl = document.querySelector('#sum-el')
+const newCardBtnEl = document.querySelector('#new-card')
+const dealerCardEl = document.querySelector('#dealer-cards')
+const dealerSumEl = document.querySelector('#dealer-sum')
+const playerEl = document.querySelector('#player-el')
 
 playerEl.textContent = player.name + ': $' + player.chips
 
