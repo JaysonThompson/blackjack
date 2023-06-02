@@ -19,7 +19,7 @@ const playerEl = document.querySelector('#player-el')
 
 playerEl.textContent = player.name + ': $' + player.chips
 
-function genRandomCard() {
+const genRandomCard = () => {
   let randomCard = Math.floor(Math.random() * 13) + 1
   if (randomCard === 1) {
     return 11
@@ -29,18 +29,18 @@ function genRandomCard() {
   return randomCard
 }
 
-function startGame() {
+const startGame = () => {
   isAlive = true
   let firstCard = genRandomCard()
   let secondCard = genRandomCard()
   cards = [firstCard, secondCard]
   sum = firstCard + secondCard
   renderGame()
-  hideResetBtn()
+  hideBtn('reset-game')
   getDealerHand()
 }
 
-function renderGame() {
+const renderGame = () => {
   cardsEl.textContent = 'Cards: '
 
   for (let i = 0; i < cards.length; i++) {
@@ -50,28 +50,28 @@ function renderGame() {
   sumEl.textContent = 'Sum: ' + sum
   if (sum <= 20) {
     message = 'Would you like another card?'
-    showNewCardBtn()
-    showStayBtn()
-    hideStartBtn()
+    showBtn('new-card')
+    showBtn('stay')
+    hideBtn('start-game')
   } else if (sum === 21) {
     message = 'BLACKJACK, YOU WIN!!!'
     hasBlackJack = true
-    hideNewCardBtn()
-    hideStayBtn()
-    showResetBtn()
-    hideStartBtn()
+    hideBtn('new-card')
+    hideBtn('stay')
+    hideBtn('start-game')
+    showBtn('reset-game')
   } else {
     message = 'Sorry, you lose. Better luck next time asshole!'
     isAlive = false
-    hideNewCardBtn()
-    hideStayBtn()
-    showResetBtn()
-    hideStartBtn()
+    hideBtn('new-card')
+    hideBtn('stay')
+    hideBtn('start-game')
+    showBtn('reset-game')
   }
   messageEl.textContent = message
 }
 
-function newCard() {
+const newCard = () => {
   if (hasBlackJack === false && isAlive === true) {
     let addCard = genRandomCard()
     cards.push(addCard)
@@ -80,7 +80,7 @@ function newCard() {
   }
 }
 
-function newDealerCard() {
+const newDealerCard = () => {
   if (hasBlackJack === false && isAlive === true) {
     let addDealerCard = genRandomCard()
     dealerCards.push(addDealerCard)
@@ -89,39 +89,41 @@ function newDealerCard() {
   }
 }
 
-function resetGame() {
+const resetGame = () => {
   message = 'Would you like another card?'
   startGame()
 }
 
-function getDealerHand() {
+const getDealerHand = () => {
   let firstCard = genRandomCard()
   let secondCard = genRandomCard()
+  
   dealerCards = [firstCard, secondCard]
   dealerSum = firstCard + secondCard
+  
   dealerCardEl.textContent = ' ' + firstCard
   dealerSumEl.textContent = "Dealer's total: " + firstCard
+  
   if (dealerSum === 21) {
     message = 'Sorry, you lose. Better luck next time asshole!'
     isAlive = false
     dealerCardEl.textContent = ' ' + firstCard + ' ' + secondCard
     dealerSumEl.textContent = "Dealer's total: " + dealerSum
-    hideNewCardBtn()
-    hideStayBtn()
-    showResetBtn()
-    hideStartBtn()
+    hideBtn('new-card')
+    hideBtn('stay')
+    hideBtn('start-game')
+    showBtn('reset')
   }
   messageEl.textContent = message
 }
 
-function stay() {
+const stay = () => {
   messageEl.textContent = ''
-  console.log(dealerSum)
-  console.log(dealerCards)
   dealerCardEl.textContent += ' ' + dealerCards[1]
   dealerSumEl.textContent = "Dealer's total: " + dealerSum
-  hideNewCardBtn()
-  hideStartBtn()
+    hideBtn('new-card')
+    hideBtn('start-game')
+  
   if (dealerSum <= 16) {
     dealerCardEl.textContent += ' ' + dealerCards[1]
     newDealerCard()
@@ -130,55 +132,15 @@ function stay() {
 
 ///// Button Functions
 
-function showStartBtn() {
-  let btnEl = document.querySelector('#start-game')
-  if (!btnEl.classList.contains('show')) {
+const showBtn = elId => {
+  let btnEl = document.querySelector(`#${elId}`)
+    if (!btnEl.classList.contains('show')) {
     return (btnEl.className += 'show')
   }
 }
 
-function hideStartBtn() {
-  let btnEl = document.querySelector('#start-game')
-  if (btnEl.classList.contains('show')) {
-    return btnEl.classList.remove('show')
-  }
-}
-
-function showNewCardBtn() {
-  let btnEl = document.querySelector('#new-card')
-  if (!btnEl.classList.contains('show')) {
-    return (btnEl.className += 'show')
-  }
-}
-
-function hideNewCardBtn() {
-  let btnEl = document.querySelector('#new-card')
-  if (btnEl.classList.contains('show')) {
-    return btnEl.classList.remove('show')
-  }
-}
-function showStayBtn() {
-  let btnEl = document.querySelector('#stay')
-  if (!btnEl.classList.contains('show')) {
-    return (btnEl.className += 'show')
-  }
-}
-
-function hideStayBtn() {
-  let btnEl = document.querySelector('#stay')
-  if (btnEl.classList.contains('show')) {
-    return btnEl.classList.remove('show')
-  }
-}
-function showResetBtn() {
-  let btnEl = document.querySelector('#reset-game')
-  if (!btnEl.classList.contains('show')) {
-    return (btnEl.className += 'show')
-  }
-}
-
-function hideResetBtn() {
-  let btnEl = document.querySelector('#reset-game')
+const hideBtn = elId => {
+  let btnEl = document.querySelector(`#${elId}`)
   if (btnEl.classList.contains('show')) {
     return btnEl.classList.remove('show')
   }
